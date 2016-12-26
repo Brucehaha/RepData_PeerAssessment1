@@ -8,17 +8,83 @@ output:
 
 ## Loading and preprocessing the data
 
+```{r loaddata,echo=true}
+activity <- read.csv("activity.csv", stringsAsFactors = FALSE)
+activity[,2] <- as.Date(activity[,2], "%Y-%m-%d")
+str(activity)
+activity
 
+```
 
 ## What is mean total number of steps taken per day?
 
+### Total number of steps taken perday 
+```{r totalno,echo=true}
+sum.steps <- aggregate(x = activity[, 1], by=list(activity[, 2]), FUN=(function(x) sum(x, na.rm = FALSE)))
+head(sum.steps)
 
+```
+
+### Histgram of the total number of steps taken each day
+```{r histgram,echo=true}
+#Histgram of the total number of steps taken each day
+hist(sum.steps[, 2],breaks=10, main="Frequency of Step Taken",xlab="Steps taken per day")
+```
+
+###Mean of the total number taken per day 
+```{r mean,echo=true}
+mean.sum.steps <- mean(sum.steps[,2], na.rm=TRUE)
+print(mean.sum.steps)
+```
+
+###Mean of the total number taken per day 
+```{r median,echo=true}
+median.sum.steps <- median(sum.steps[,2], na.rm=TRUE)
+print(median.sum.steps)
+```
 
 ## What is the average daily activity pattern?
 
+### Time Series Plot
+```{r timeseries, echo=TRUE}
+mean.steps <- aggregate(x = activity[, 1], by=list(activity[, 2]), FUN=(function(x) mean(x, na.rm = FALSE)))
+
+plot(mean.steps[, 1], mean.steps[,2], type="l", xlab = "Day", ylab = "Steps Taken", main = "Steps Taken Each Day")
+
+```
+
+### Maximum number of steps
+```{r maximum, ech=TRUE }
+activity[which.max(activity[,1]), 3]
+```
 
 
 ## Imputing missing values
+
+###Number of missing value
+```{r na,echo=true}
+sapply(activity, function(x) sum(is.na(x)))
+```
+
+### Fill the missing value with the mean each day
+```{r na,echo=true}
+#Fill the missing value of average steps each day
+mean.steps[is.na(mean.steps[,2]),][,2] <- mean(mean.steps[,2], na.rm=TRUE)
+
+#fill the missing value for each interval with the average steps each day.
+for (i in 1:nrow(activity)) {
+        if(is.na(activity[i, 1])){
+                activity[i, 1] <- mean.steps[which(mean.steps[1,]==activity[i, 2]), 2]
+        }
+                
+}
+
+```
+###New dataset
+```{r newdata, echo=TRUE}
+head(activity)
+```
+
 
 
 
