@@ -60,12 +60,12 @@ activity[which.max(activity[,1]), 3]
 ## Imputing missing values
 
 ###Number of missing value
-```{r na,echo=true}
+```{r na1,echo=true}
 sapply(activity, function(x) sum(is.na(x)))
 ```
 
 ### Fill the missing value with the mean of steps takeneach day
-```{r na,echo=true}
+```{r na2,echo=true}
 #Fill the missing value of average steps each day with the mean of the average steps taken each day
 mean.steps[is.na(mean.steps[,2]),][,2] <- mean(mean.steps[,2], na.rm=TRUE)
 
@@ -86,7 +86,7 @@ head(clean.activity)
 ```
 
 ###Histgram of the total number of steps taken each day 
-```{r histgram, echo=True}
+```{r histgram2, echo=True}
 sum.clean.steps <- aggregate(x = clean.activity[, 1], by=list(clean.activity[, 2]), FUN=(function(x) sum(x, na.rm = FALSE)))
 hist(sum.clean.steps[,2], breaks = 10, main="Frequency of Step Taken",xlab="Steps taken per day")
 
@@ -113,7 +113,7 @@ clean.activity$weekdays <- factor((weekdays(clean.activity$date) %in% wdays), le
 
 ```
 ###plot 
-```{r plot, echo=TRUE}
+```{r plot2, echo=TRUE}
 library(ggplot2)
 qplot(interval, steps, data=clean.activity, facets=weekdays~.,geom = "line")
 ```
