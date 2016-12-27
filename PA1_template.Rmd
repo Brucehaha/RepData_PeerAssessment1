@@ -115,7 +115,11 @@ clean.activity$weekdays <- factor((weekdays(clean.activity$date) %in% wdays), le
 ###plot 
 ```{r plot2, echo=TRUE, warning=FALSE}
 require(ggplot2)
-qplot(interval, steps, data=clean.activity, facets=weekdays~.,geom = "line")
+mean.clean.steps <- aggregate(x = clean.activity$steps, by=list(clean.activity$date), FUN=(function(x) mean(x, na.rm = FALSE)))
+mean.clean.steps$weekdays <- factor((weekdays(mean.clean.steps$Group.1) %in% wdays), levels = c(FALSE, TRUE), labels=c("weekend", "weekday"))
+
+
+qplot(x, Group.1, data=mean.clean.steps, facets=weekdays~.,geom = "line", xlab = "interval")
 ```
 
 
