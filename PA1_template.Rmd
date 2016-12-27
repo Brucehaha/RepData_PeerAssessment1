@@ -8,7 +8,7 @@ output:
 
 ## Loading and preprocessing the data
 
-```{r loaddata,echo=true}
+```{r loaddata,echo=TRUE}
 activity <- read.csv("activity.csv", stringsAsFactors = FALSE)
 activity[,2] <- as.Date(activity[,2], "%Y-%m-%d")
 
@@ -17,26 +17,26 @@ activity[,2] <- as.Date(activity[,2], "%Y-%m-%d")
 ## What is mean total number of steps taken per day?
 
 ### Total number of steps taken perday 
-```{r totalno,echo=true}
+```{r totalno,echo=TRUE}
 sum.steps <- aggregate(x = activity[, 1], by=list(activity[, 2]), FUN=(function(x) sum(x, na.rm = FALSE)))
 head(sum.steps)
 
 ```
 
 ### Histgram of the total number of steps taken each day
-```{r histgram,echo=true}
+```{r histgram,echo=TRUE}
 #Histgram of the total number of steps taken each day
 hist(sum.steps[, 2],breaks=10, main="Frequency of Step Taken",xlab="Steps taken per day")
 ```
 
 ###Mean of the total number taken per day 
-```{r mean,echo=true}
+```{r mean,echo=TRUE}
 mean.sum.steps <- mean(sum.steps[,2], na.rm=TRUE)
 print(mean.sum.steps)
 ```
 
 ###Median of the total number taken per day 
-```{r median,echo=true}
+```{r median,echo=TRUE}
 median.sum.steps <- median(sum.steps[,2], na.rm=TRUE)
 print(median.sum.steps)
 ```
@@ -60,12 +60,12 @@ activity[which.max(activity[,1]), 3]
 ## Imputing missing values
 
 ###Number of missing value
-```{r na1,echo=true}
+```{r na1,echo=TRUE}
 sapply(activity, function(x) sum(is.na(x)))
 ```
 
 ### Fill the missing value with the mean of steps takeneach day
-```{r na2,echo=true}
+```{r na2,echo=TRUE}
 #Fill the missing value of average steps each day with the mean of the average steps taken each day
 mean.steps[is.na(mean.steps[,2]),][,2] <- mean(mean.steps[,2], na.rm=TRUE)
 
@@ -86,20 +86,20 @@ head(clean.activity)
 ```
 
 ###Histgram of the total number of steps taken each day 
-```{r histgram2, echo=True}
+```{r histgram2, echo=TRUE}
 sum.clean.steps <- aggregate(x = clean.activity[, 1], by=list(clean.activity[, 2]), FUN=(function(x) sum(x, na.rm = FALSE)))
 hist(sum.clean.steps[,2], breaks = 10, main="Frequency of Step Taken",xlab="Steps taken per day")
 
 ```
 
 ###Mean of the total number taken per day 
-```{r mean1,echo=true}
+```{r mean1,echo=TRUE}
 mean.sum.clean.steps <- mean(sum.clean.steps[,2], na.rm=TRUE)
 print(mean.sum.clean.steps)
 ```
 
 ###Median of the total number taken per day 
-```{r median1,echo=true}
+```{r median1,echo=TRUE}
 median.sum.clean.steps <- median(sum.clean.steps[,2], na.rm=TRUE)
 
 print(median.sum.clean.steps)
