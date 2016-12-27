@@ -113,8 +113,8 @@ clean.activity$weekdays <- factor((weekdays(clean.activity$date) %in% wdays), le
 
 ```
 ###plot 
-```{r plot2, echo=TRUE}
-library(ggplot2)
+```{r plot2, echo=TRUE, warning=FALSE}
+require(ggplot2)
 qplot(interval, steps, data=clean.activity, facets=weekdays~.,geom = "line")
 ```
 
