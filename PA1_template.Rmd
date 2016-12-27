@@ -11,8 +11,6 @@ output:
 ```{r loaddata,echo=true}
 activity <- read.csv("activity.csv", stringsAsFactors = FALSE)
 activity[,2] <- as.Date(activity[,2], "%Y-%m-%d")
-str(activity)
-activity
 
 ```
 
@@ -37,7 +35,7 @@ mean.sum.steps <- mean(sum.steps[,2], na.rm=TRUE)
 print(mean.sum.steps)
 ```
 
-###Mean of the total number taken per day 
+###Median of the total number taken per day 
 ```{r median,echo=true}
 median.sum.steps <- median(sum.steps[,2], na.rm=TRUE)
 print(median.sum.steps)
@@ -66,26 +64,65 @@ activity[which.max(activity[,1]), 3]
 sapply(activity, function(x) sum(is.na(x)))
 ```
 
-### Fill the missing value with the mean each day
+### Fill the missing value with the mean of steps takeneach day
 ```{r na,echo=true}
-#Fill the missing value of average steps each day
+#Fill the missing value of average steps each day with the mean of the average steps taken each day
 mean.steps[is.na(mean.steps[,2]),][,2] <- mean(mean.steps[,2], na.rm=TRUE)
 
-#fill the missing value for each interval with the average steps each day.
-for (i in 1:nrow(activity)) {
-        if(is.na(activity[i, 1])){
-                activity[i, 1] <- mean.steps[which(mean.steps[1,]==activity[i, 2]), 2]
+#replace the missing value for each interval with the average steps each day.
+clean.activity <- activity 
+for (i in 1:nrow(clean.activity)) {
+        if(is.na(clean.activity[i, 1])){
+                clean.activity[i, 1] <- mean.steps[which(mean.steps$Group.1==clean.activity[i, 2]), 2]
         }
                 
 }
 
+
 ```
 ###New dataset
 ```{r newdata, echo=TRUE}
-head(activity)
+head(clean.activity)
+```
+
+###Histgram of the total number of steps taken each day 
+```{r histgram, echo=True}
+sum.clean.steps <- aggregate(x = clean.activity[, 1], by=list(clean.activity[, 2]), FUN=(function(x) sum(x, na.rm = FALSE)))
+hist(sum.clean.steps[,2], breaks = 10, main="Frequency of Step Taken",xlab="Steps taken per day")
+
+```
+
+###Mean of the total number taken per day 
+```{r mean,echo=true}
+mean.sum.clean.steps <- mean(sum.clean.steps[,2], na.rm=TRUE)
+print(mean.sum.clean.steps)
+```
+
+###Median of the total number taken per day 
+```{r median,echo=true}
+median.sum.clean.steps <- median(sum.clean.steps[,2], na.rm=TRUE)
+
+print(median.sum.clean.steps)
+```
+## Are there differences in activity patterns between weekdays and weekends?
+
+###Create weekday variables
+```{r weekday, echo=TRUE}
+wdays<- c('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday')
+clean.activity$weekdays <- factor((weekdays(clean.activity$date) %in% wdays), levels = c(FALSE, TRUE), labels=c("weekend", "weekday"))
+
+```
+###plot 
+```{r plot, echo=TRUE}
+library(ggplot2)
+qplot(interval, steps, data=clean.activity, facets=weekdays~.,geom = "line")
 ```
 
 
 
 
-## Are there differences in activity patterns between weekdays and weekends?
+
+
+
+
+
