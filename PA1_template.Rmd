@@ -93,13 +93,13 @@ hist(sum.clean.steps[,2], breaks = 10, main="Frequency of Step Taken",xlab="Step
 ```
 
 ###Mean of the total number taken per day 
-```{r mean,echo=true}
+```{r mean1,echo=true}
 mean.sum.clean.steps <- mean(sum.clean.steps[,2], na.rm=TRUE)
 print(mean.sum.clean.steps)
 ```
 
 ###Median of the total number taken per day 
-```{r median,echo=true}
+```{r median1,echo=true}
 median.sum.clean.steps <- median(sum.clean.steps[,2], na.rm=TRUE)
 
 print(median.sum.clean.steps)
