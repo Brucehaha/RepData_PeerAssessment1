@@ -1,9 +1,4 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
+# Reproducible Research: Peer Assessment 1
 
 
 ## Loading and preprocessing the data
@@ -40,7 +35,7 @@ head(sum.steps)
 hist(sum.steps$steps,breaks=10, main="Frequency of Step Taken",xlab="Steps taken per day")
 ```
 
-![plot of chunk histgram](figure/histgram-1.png)
+![](PA1_template_files/figure-html/histgram-1.png)<!-- -->
 
 ###Mean of the total number taken per day 
 
@@ -74,7 +69,7 @@ mean.interval.steps <- aggregate(steps~interval, activity, FUN=function(x) mean(
 plot(mean.interval.steps[, 1], mean.interval.steps[,2], type="l", xlab = "Interval", ylab = "Number of Steps", main = "Steps Taken Each Day")
 ```
 
-![plot of chunk timeseries](figure/timeseries-1.png)
+![](PA1_template_files/figure-html/timeseries-1.png)<!-- -->
 
 ### Maximum number of steps
 
@@ -140,7 +135,7 @@ sum.clean.steps <- aggregate(x = clean.activity[, 1], by=list(clean.activity[, 2
 hist(sum.clean.steps[,2], breaks = 10, main="Frequency of Step Taken",xlab="Steps taken per day")
 ```
 
-![plot of chunk histgram2](figure/histgram2-1.png)
+![](PA1_template_files/figure-html/histgram2-1.png)<!-- -->
 
 ###Mean of the total number taken per day 
 
@@ -176,12 +171,19 @@ clean.activity$weekdays <- factor((weekdays(clean.activity$date) %in% wdays), le
 
 ```r
 require(ggplot2)
+```
+
+```
+## Loading required package: ggplot2
+```
+
+```r
 mean.clean.interval.steps <- aggregate(steps~interval+weekdays,clean.activity, FUN=(function(x) mean(x)))
 
 qplot(interval, steps, data=mean.clean.interval.steps, facets=weekdays~.,geom = "line", xlab = "Interval", ylab = "Number of Steps")
 ```
 
-![plot of chunk plot2](figure/plot2-1.png)
+![](PA1_template_files/figure-html/plot2-1.png)<!-- -->
 
 
 
